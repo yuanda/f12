@@ -16,18 +16,18 @@ class Logger
 	include Singleton
 
 	def initialize
-		@logFile = "changeme.log"
+		@logFile = "server.log"
 		@logFileFrozen = false
-		@writeToStderr = false
+		@writeToStderr = true
 	end
 
 	def setConfig(config)
 		if @logFileFrozen
-			@@instance.warn "Config already set or log file already used-- cannot be set a second time, ignoring."
+			Logger.instance.warn "Config already set or log file already used-- cannot be set a second time, ignoring."
 			return
 		end
 
-		@writeToStderr = config.config["write_to_stderr"].include?("true") if config.config["write_to_stderr"]
+		@writeToStderr = config.config["write_to_stderr"].include?("yes") if config.config["write_to_stderr"]
 		@logFile = config.config["log_file"]
 		@configAlreadySet = true
 	end
